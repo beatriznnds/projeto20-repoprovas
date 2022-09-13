@@ -1,6 +1,8 @@
-import Joi from "joi";
+import Joi, { PartialSchemaMap } from "joi";
 
-export const newUser = Joi.object({
+type TypeUserData = PartialSchemaMap;
+
+export const newUser = Joi.object<TypeUserData>({
   email: Joi.string().email().required(),
   password: Joi.string().min(4).required(),
   confirmPassword: Joi.ref("password"),
