@@ -44,3 +44,8 @@ export async function getTestsByDiscipline() {
   const result = await testRepo.getTestsByDiscipline();
   return result;
 }
+
+export async function getTestsByTeacher() {
+  const result = await testRepo.getTestsByTeacher();
+  return result;
+}

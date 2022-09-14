@@ -19,3 +19,14 @@ export async function getTestsByDiscipline() {
   });
   return result;
 }
+
+export async function getTestsByTeacher() {
+  const result = prisma.teachersDisciplines.findMany({
+    include: {
+      teachers: true,
+      disciplines: true,
+      tests: { include: { category: true } },
+    },
+  });
+  return result;
+}

@@ -9,5 +9,6 @@ const testRouter = Router();
 testRouter.use(checkValidToken);
 testRouter.post("/tests", validateSchema(newTest), testController.insert);
 testRouter.get("/tests/disciplines", testController.getTestsByDiscipline);
+testRouter.get("/tests/teachers", testController.getTestsByTeacher);
 
 export default testRouter;
