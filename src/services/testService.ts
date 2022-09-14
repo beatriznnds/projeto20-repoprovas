@@ -39,3 +39,8 @@ export async function insert(test: CreateTestData) {
   };
   await testRepo.insert(newTest);
 }
+
+export async function getTestsByDiscipline() {
+  const result = await testRepo.getTestsByDiscipline();
+  return result;
+}
