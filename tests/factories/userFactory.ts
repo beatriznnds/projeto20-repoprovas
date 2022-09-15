@@ -26,3 +26,10 @@ export async function createUser({
 
   return user;
 }
+
+export async function createToken() {
+  const user = await createUser({ persist: true });
+  const JWT_SECRET = process.env.JWT_SECRET;
+  const token = jwt.sign({ email: user.email }, JWT_SECRET as string);
+  return token;
+}
