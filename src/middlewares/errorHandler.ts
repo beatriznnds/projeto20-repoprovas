@@ -1,20 +1,25 @@
 import { Request, Response, NextFunction } from "express";
 
+interface error {
+  type: "Not Found" | "Conflict" | "Unauthorized" | "ValidationError";
+  message: string;
+}
+
 export default function errorHandler(
-  error: any,
+  error: error,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  if (error.type === "Not Found") {
-    return res.status(404).send({ message: error.message });
-  }
-  if (error.type === "Conflict") {
-    return res.status(409).send({ message: error.message });
-  }
-  if (error.type === "Unauthorized") {
-    return res.status(401).send({ message: error.message });
-  }
+  const errorTypes = {
+    "Not Found": 404,
+    Conflict: 409,
+    Unauthorized: 401,
+    ValidationError: 422,
+  };
+
+  return res.status(errorTypes[error.type]).send({ message: error.message });
+
   console.log(error);
   res.sendStatus(500);
 }
