@@ -15,11 +15,11 @@ export async function checkValidToken(
 ) {
   const authorization = req.headers.authorization;
   if (!authorization) {
-    throw { type: "Not Found", message: `Authorization header not found!` };
+    throw { type: "Unauthorized", message: `Authorization header not found!` };
   }
   const token = authorization?.replace("Bearer ", "").trim();
   if (!token) {
-    throw { type: "Not Found", message: `Authorization header not found!` };
+    throw { type: "Unauthorized", message: `Invalid authorization header!` };
   }
   const { userId } = jwt.verify(token, process.env.JWT_SECRET as string) as Id;
   res.locals.userId = userId;

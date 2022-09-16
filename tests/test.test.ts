@@ -5,7 +5,6 @@ import * as userFactory from "./factories/userFactory";
 import * as testFactory from "./factories/testFactory";
 
 beforeEach(async () => {
-  testFactory.populateTest();
   await prisma.$executeRaw`TRUNCATE TABLE tests`;
 });
 
@@ -46,6 +45,36 @@ describe(`POST /tests`, () => {
       .set("Authorization", `Bearer ${token}`)
       .send(test);
     expect(result.status).toEqual(422);
+  });
+});
+
+describe("GET /tests/disciplines", () => {
+  it("should return 200 and list of tests by discipline", async () => {
+    const token = await userFactory.createToken();
+    const result = await supertest(app)
+      .get("/tests/disciplines")
+      .set("Authorization", `Bearer ${token}`);
+    expect(result.status).toEqual(200);
+    expect(result.body).toBeInstanceOf(Object);
+  });
+  it("should return 401 when token is invalid or not provided", async () => {
+    const result = await supertest(app).get("/tests/disciplines");
+    expect(result.status).toEqual(401);
+  });
+});
+
+describe("GET /tests/teachers", () => {
+  it("should return 200 and list of tests by teachers", async () => {
+    const token = await userFactory.createToken();
+    const result = await supertest(app)
+      .get("/tests/teachers")
+      .set("Authorization", `Bearer ${token}`);
+    expect(result.status).toEqual(200);
+    expect(result.body).toBeInstanceOf(Object);
+  });
+  it("should return 401 when token is invalid or not provided", async () => {
+    const result = await supertest(app).get("/tests/teachers");
+    expect(result.status).toEqual(401);
   });
 });
 

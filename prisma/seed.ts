@@ -1,4 +1,7 @@
 import { prisma } from "../src/database";
+import { teachersDisciplines } from "@prisma/client";
+
+type TeacherDiscipline = Omit<teachersDisciplines, "id">;
 
 async function main() {
   const category = {
@@ -49,8 +52,10 @@ async function main() {
 
   await prisma.teachersDisciplines.upsert({
     where: {
-      teacherId: teacherDiscipline.teacherId,
-      disciplineId: teacherDiscipline.disciplineId,
+      teacherId_disciplineId: {
+        teacherId: teacherDiscipline.teacherId,
+        disciplineId: teacherDiscipline.disciplineId,
+      },
     },
     update: {},
     create: teacherDiscipline,
