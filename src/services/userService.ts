@@ -45,4 +45,10 @@ export async function isUserValid(user: TypeUserData) {
 export async function login(user: TypeUserData, confirmPassword: string) {
   const validUser = await isUserValid(user);
   await passwordValidation(user.password, confirmPassword);
+  const JWT_SECRET = process.env.JWT_SECRET;
+  const token = jwt.sign(
+    { email: user.email, userId: validUser.id },
+    JWT_SECRET as string
+  );
+  return token;
 }

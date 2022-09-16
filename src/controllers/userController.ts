@@ -12,5 +12,6 @@ export async function login(req: Request, res: Response) {
   const user = req.body;
   const { confirmPassword } = req.body;
   const token = await userService.login(user, confirmPassword);
+  console.log(token);
   res.status(200).send({ token });
 }
