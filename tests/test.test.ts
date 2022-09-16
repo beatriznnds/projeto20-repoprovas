@@ -5,15 +5,16 @@ import * as userFactory from "./factories/userFactory";
 import * as testFactory from "./factories/testFactory";
 
 beforeEach(async () => {
-  await prisma.$executeRaw`TRUNCATE TABLE tests;`;
+  testFactory.populateTest();
+  await prisma.$executeRaw`TRUNCATE TABLE tests`;
 });
 
 describe(`POST /tests`, () => {
   it(`should return 201 for valid params`, async () => {
     const token = await userFactory.createToken();
-    console.log(token);
     const test = await testFactory.createTest();
-    console.log(test);
+    const findTeacher = await prisma.teachersDisciplines.findFirst();
+    console.log(findTeacher);
     const result = await supertest(app)
       .post("/tests")
       .set("Authorization", `Bearer ${token}`)
